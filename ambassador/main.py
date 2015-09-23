@@ -45,6 +45,24 @@ def parse_port_rule(rule):
     return PortRule(matches[0], (matches[1], matches[0])[not matches[1]], (matches[2], "tcp")[not matches[2]])
 
 
+def locate_container(label_name, label_value):
+    for container in c.containers(filters=dict(status="running")):
+        if label_name in container["Labels"] and container["Labels"][label_name] == label_value:
+            print("Target container: %s(%s)" % (container['Id'], container['Names']))
+            return container
+    return None
+
+
+def wait_and_locate_container(label_name, label_value):
+    container = locate_container(label_name, label_value)
+    if container is None:
+        for _ in c.events():
+            container = locate_container(label_name, label_value)
+            if container is not None:
+                return container
+    return container
+
+
 parser = argparse.ArgumentParser(description='Create a proxy targeting container in same docker host')
 
 parser.add_argument('--label', '-l', type=str, required=True,
@@ -53,6 +71,8 @@ parser.add_argument('--label', '-l', type=str, required=True,
 parser.add_argument("--port", "-p", type=str, action="append", required=True,
                     help="Port forwarding rules. e.g: in_port[:forward_port=in_port][/protocol=tcp]",
                     dest="forwarding_rules")
+parser.add_argument("--wait-container",
+                    help="Wait that target container appear", dest="wait_container", action="store_true", default=False)
 
 args = parser.parse_args()
 
@@ -61,13 +81,10 @@ c = Client(base_url='unix://var/run/docker.sock')
 label_name, label_value = parse_label(args.label_description)
 rules = [parse_port_rule(rule) for rule in args.forwarding_rules]
 
-target = None
-
-for container in c.containers(filters=dict(status="running")):
-    if label_name in container["Labels"] and container["Labels"][label_name] == label_value:
-        target = container
-        print("Target container: %s(%s)" % (target['Id'], target['Names']))
-        break
+if not args.wait_container:
+    target = locate_container(label_name, label_value)
+else:
+    target = wait_and_locate_container(label_name, label_value)
 
 if target is None:
     print("Cannot find container matching label '%s=%s'" % (label_name, label_value))
