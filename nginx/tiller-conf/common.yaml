@@ -1,0 +1,21 @@
+exec: ["nginx"]
+data_sources: ['defaults', 'file' , 'environment' ]
+template_sources: [ 'file' ]
+defaults:
+    global:
+        env_toaddress: target
+        env_toport: 8080
+        env_fromport_clear: 80
+environments:
+    prod:
+        nginx.erb:
+            target: /etc/nginx/nginx.conf
+            user: root
+            group: root
+            perms: 0644
+
+        default-nginx.erb:
+            target: /etc/nginx/conf.d/default.conf
+            user: root
+            group: root
+            perms: 0644
