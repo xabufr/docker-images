@@ -1,0 +1,30 @@
+exec:
+data_sources: ['defaults', 'file' , 'environment' ]
+template_sources: [ 'file' ]
+defaults:
+    global:
+        env_remote_auth_method: md5
+        env_listen_address: 127.0.0.1
+environments:
+    prod:
+        postgresql.conf.erb:
+            target: /etc/postgresql/9.4/main/postgresql.conf
+            user: postgres
+            group: postgres
+            perms: 0644
+        pg_hba.conf.erb:
+            target: /etc/postgresql/9.4/main/pg_hba.conf
+            user: postgres
+            group: postgres
+            perms: 0644
+    recover:
+        recovery.conf.erb:
+            #target: /etc/postgresql/9.4/main/recovery.conf
+            target: /var/lib/postgresql/9.4/main/recovery.conf
+            user: postgres
+            group: postgres
+            perms: 0644
+    cron:
+        pg_base_backup.erb:
+            target: /etc/cron.d/pg_base_backup
+            perms: 0644
