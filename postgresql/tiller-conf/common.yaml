@@ -5,6 +5,7 @@ defaults:
     global:
         env_remote_auth_method: md5
         env_listen_address: 127.0.0.1
+        env_backup_interval: 0 2 * * *
 environments:
     prod:
         postgresql.conf.erb:
