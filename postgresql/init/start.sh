@@ -4,7 +4,7 @@ BASE=$0
 BASE_PATH=$(dirname $BASE)
 
 if [ ! -e /configured ]; then
-    $BASE_PATH/backup.sh
+    $BASE_PATH/backup-env.sh
     if [ "$RESTORE" = "YES" ]; then
         $BASE_PATH/restore.sh
     else
