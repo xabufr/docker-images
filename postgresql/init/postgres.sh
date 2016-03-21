@@ -1,6 +1,13 @@
 #!/bin/sh
 set -e
 
+
+mkdir -p "$PGDATA"
+chmod 700 "$PGDATA"
+chown -R postgres "$PGDATA"
+
+sudo -u postgres /usr/lib/postgresql/9.4/bin/initdb -D "$PGDATA"
+
 # Use tiller to configure postgres locally only,
 AUTH=md5
 if [ "$POSTGRES_PASSWORD" ]; then
