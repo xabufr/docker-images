@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 set -e
 
 
@@ -27,7 +27,7 @@ if [ ! -s "$PGDATA/PG_VERSION" ]; then
         Use "-e POSTGRES_PASSWORD=password" to set
         it in "docker run".
         ****************************************************
-        EOWARN
+EOWARN
         pass=
         authMethod=trust
     fi
@@ -56,7 +56,7 @@ if [ ! -s "$PGDATA/PG_VERSION" ]; then
 
     sudo -u postgres psql <<-EOSQL
     $op USER "$POSTGRES_USER" WITH SUPERUSER $pass ;
-    EOSQL
+EOSQL
     echo
 
     sudo -u postgres /init/backup.sh
