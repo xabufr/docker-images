@@ -62,6 +62,7 @@ EOSQL
     sudo -u postgres /init/backup.sh
 
     service postgresql stop
+
+    LISTEN_ADDRESS="*" REMOTE_AUTH_METHOD="$authMethod" tiller -n -e prod
 fi
 
-LISTEN_ADDRESS="*" REMOTE_AUTH_METHOD="$authMethod" tiller -n -e prod
