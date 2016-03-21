@@ -44,7 +44,7 @@ EOWARN
     if [ "$POSTGRES_DB" != 'postgres' ]; then
         sudo -u postgres psql <<-EOSQL
         CREATE DATABASE "$POSTGRES_DB" ;
-        EOSQL
+EOSQL
         echo
     fi
 
