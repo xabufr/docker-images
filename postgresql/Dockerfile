@@ -1,4 +1,4 @@
-FROM phusion/baseimage:0.9.17
+FROM phusion/baseimage:0.9.18
 
 ENV VERSION 9.4
 
@@ -7,8 +7,9 @@ ADD install.sh /install.sh
 RUN /install.sh
 COPY tiller-conf/ /etc/tiller/
 COPY init/ /init/
+COPY init/ /etc/service/postgres/
 ADD wal-e-wrapper.sh /wal-e-wrapper.sh
 
 VOLUME "/var/lib/postgresql/data"
-CMD ["/init/start.sh"]
+CMD ["/sbin/my_init"]
 EXPOSE 5432

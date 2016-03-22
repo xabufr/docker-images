@@ -1,10 +1,13 @@
 #!/bin/bash
 set -e
 
+PG_CTL="/usr/lib/postgresql/9.4/bin/pg_ctl"
 
 mkdir -p "$PGDATA"
 chmod 700 "$PGDATA"
 chown -R postgres "$PGDATA"
+mkdir /var/run/postgresql/9.4-main.pg_stat_tmp/
+chown -R postgres /var/run/postgresql/9.4-main.pg_stat_tmp/
 
 if [ ! -s "$PGDATA/PG_VERSION" ]; then
     sudo -u postgres /usr/lib/postgresql/9.4/bin/initdb -D "$PGDATA"
@@ -34,7 +37,8 @@ EOWARN
 
     LISTEN_ADDRESS="127.0.0.1" REMOTE_AUTH_METHOD="$authMethod" tiller -n -e prod
 
-    service postgresql start
+    # TODO Modifier pour bien contrôler le répertoire PGDATA
+    sudo -u postgres "$PG_CTL" -D "$PGDATA" -w start
 
 
     : ${POSTGRES_USER:=postgres}
@@ -59,7 +63,7 @@ EOSQL
 EOSQL
     echo
 
-    service postgresql stop
+    sudo -u postgres "$PG_CTL" -D "$PGDATA" -m fast -w stop
 
     LISTEN_ADDRESS="*" REMOTE_AUTH_METHOD="$authMethod" tiller -n -e prod
 fi
