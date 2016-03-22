@@ -1,11 +1,13 @@
+<% endpoints.each do |endpoint| %>
 server {
-    listen       <%if defined?(env_listen_address)%><%= env_listen_address %>:<%end%><%= env_fromport_clear ||=80 %>;
+    listen <%= endpoint['port'] ||=80 %>;
+    <%if endpoint['name'] %>server_name <%= endpoint['name']%>;<%end%>
     location / {
-        proxy_pass http://<%= env_toaddress %>:<%= env_toport %><%= env_topath if defined?(env_topath) %>;
+        proxy_pass <%= endpoint['protocol'] ||="http"%>://<%= endpoint['target'] %>:<%= endpoint['targetPort'] %><%= endpoint['path'] if defined?(endpoint['path']) %>;
         proxy_set_header        Host            $host;
         proxy_set_header        X-Real-IP       $remote_addr;
         proxy_set_header        X-Forwarded-For $proxy_add_x_forwarded_for;
         proxy_set_header        X-Forwarded-Proto $scheme;
     }
 }
-
+<% end %>

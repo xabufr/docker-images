@@ -1,11 +1,6 @@
 exec: ["nginx"]
-data_sources: ['defaults', 'file' , 'environment' ]
+data_sources: ['defaults', 'file' , 'environment_json' ]
 template_sources: [ 'file' ]
-defaults:
-    global:
-        env_toaddress: target
-        env_toport: 8080
-        env_fromport_clear: 80
 environments:
     prod:
         nginx.erb:
