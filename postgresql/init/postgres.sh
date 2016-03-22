@@ -6,7 +6,7 @@ PG_CTL="/usr/lib/postgresql/9.4/bin/pg_ctl"
 mkdir -p "$PGDATA"
 chmod 700 "$PGDATA"
 chown -R postgres "$PGDATA"
-mkdir /var/run/postgresql/9.4-main.pg_stat_tmp/
+mkdir -p /var/run/postgresql/9.4-main.pg_stat_tmp/
 chown -R postgres /var/run/postgresql/9.4-main.pg_stat_tmp/
 
 if [ ! -s "$PGDATA/PG_VERSION" ]; then

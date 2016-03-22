@@ -9,19 +9,19 @@ defaults:
 environments:
     prod:
         postgresql.conf.erb:
-            target: /etc/postgresql/9.4/main/postgresql.conf
+            target: /var/lib/postgresql/data/data/postgresql.conf
             user: postgres
             group: postgres
             perms: 0644
         pg_hba.conf.erb:
-            target: /etc/postgresql/9.4/main/pg_hba.conf
+            target: /var/lib/postgresql/data/data/pg_hba.conf
             user: postgres
             group: postgres
             perms: 0644
     recover:
         recovery.conf.erb:
             #target: /etc/postgresql/9.4/main/recovery.conf
-            target: /var/lib/postgresql/9.4/main/recovery.conf
+            target: /var/lib/postgresql/data/data/recovery.conf
             user: postgres
             group: postgres
             perms: 0644
