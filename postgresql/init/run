@@ -10,6 +10,5 @@ else
     $BASE_PATH/postgres.sh
 fi
 
-# TODO Utiliser le système d'INIT de l'image
-sudo -u postgres /usr/lib/postgresql/9.4/bin/postgres -D "$PGDATA" -c config_file=/etc/postgresql/9.4/main/postgresql.conf
+sudo -u postgres /usr/lib/postgresql/9.4/bin/postgres -D "$PGDATA"
 
