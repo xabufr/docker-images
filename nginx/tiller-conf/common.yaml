@@ -1,4 +1,4 @@
-exec: ["nginx"]
+exec: ["/init.sh"]
 data_sources: ['defaults', 'file' , 'environment_json' ]
 template_sources: [ 'file' ]
 environments:
@@ -14,3 +14,25 @@ environments:
             user: root
             group: root
             perms: 0644
+
+        letsencrypt.ini.erb:
+            target: /letsencrypt.ini
+            user: root
+            group: root
+            perms: 0644
+    init:
+        default-nginx-init.erb:
+            target: /etc/nginx/conf.d/default.conf
+            user: root
+            group: root
+            perms: 0644
+        letsencrypt.ini.erb:
+            target: /letsencrypt.ini
+            user: root
+            group: root
+            perms: 0644
+        init.sh.erb:
+            target: /init.sh
+            user: root
+            group: root
+            perms: 0744

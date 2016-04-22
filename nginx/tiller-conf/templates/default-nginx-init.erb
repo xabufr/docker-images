@@ -1,0 +1,13 @@
+<% endpoints.each do |endpoint| %>
+    <% if endpoint['port'] == 443 and endpoint['sslOnly'] %>
+        server {
+            listen 80;
+            <%if endpoint['name'] %>server_name <%= endpoint['name']%>;<%end%>
+
+            location '/.well-known/acme-challenge' {
+                default_type "text/plain";
+                root /tmp/letsencrypt-auto;
+            }
+        }
+    <%end%>
+<% end %>
