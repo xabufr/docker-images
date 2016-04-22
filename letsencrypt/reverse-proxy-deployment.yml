@@ -1,0 +1,26 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: reverse-proxy
+  labels:
+    name: reverse-proxy-deployment
+spec:
+  replicas: 1
+  template:
+    metadata:
+      name: reverse-proxy
+      labels:
+        name: reverse-proxy
+    spec:
+      containers:
+      - name: nginx
+        image: xabufr/nginx
+        resources:
+          requests:
+            memory: "16Mi"
+        ports:
+        - containerPort: 80
+        - containerPort: 443
+        env:
+        - name: tiller_json
+          value: {"endpoints":[],"ssl_enabled":false}
