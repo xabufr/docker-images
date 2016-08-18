@@ -13,6 +13,6 @@ else
 			$S3_BACKUP_PATH=$S3_BACKUP_PATH/
 		fi
 		echo "Starting uploading backup to S3"
-		s3cmd --access_key=$ACCESS_KEY --secret_key=$SECRET_KEY put "$BACKUP_FILE" "$S3_BACKUP_PATH/$today"
+		s3cmd --access_key=$ACCESS_KEY --secret_key=$SECRET_KEY put "$BACKUP_FILE" "$S3_BACKUP_PATH$today"
 	fi
 fi
