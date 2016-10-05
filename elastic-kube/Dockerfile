@@ -2,7 +2,7 @@ FROM openjdk:8u92-jre-alpine
 
 EXPOSE 9200 9300
 
-ENV VERSION 2.4.0
+ENV VERSION 2.4.1
 
 # Install Elasticsearch.
 RUN apk add --update curl ca-certificates sudo && \
@@ -34,7 +34,7 @@ ENV NUMBER_OF_REPLICAS 0
 ADD do_not_use.yml /elasticsearch/config/elasticsearch.yml
 
 # Install Elasticsearch plug-ins
-RUN /elasticsearch/bin/plugin install io.fabric8/elasticsearch-cloud-kubernetes/2.3.5 --verbose && \
+RUN /elasticsearch/bin/plugin install io.fabric8/elasticsearch-cloud-kubernetes/$VERSION --verbose && \
 /elasticsearch/bin/plugin install jettro/elasticsearch-gui --verbose && \
 /elasticsearch/bin/plugin install lmenezes/elasticsearch-kopf/v2.1.2 --verbose &&\
 /elasticsearch/bin/plugin install license --verbose && \

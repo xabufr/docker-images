@@ -17,6 +17,10 @@ path:
 
 bootstrap.mlockall: true
 
+script:
+  inline: true
+  indexed: true
+
 http:
   enabled: ${HTTP_ENABLE}
   compression: true
